@@ -1,0 +1,169 @@
+{
+  "datasets": [
+    {
+      "name": "monthly_sales",
+      "displayName": "Monthly Sales Summary",
+      "queryLines": [
+        "WITH monthly_data AS (\n",
+        "  SELECT\n",
+        "    DATE_TRUNC('MONTH', metric_date) as month,\n",
+        "    SUM(total_sales) as total_sales,\n",
+        "    SUM(total_orders) as total_orders,\n",
+        "    SUM(orders_web) as orders_web,\n",
+        "    SUM(orders_store) as orders_store\n",
+        "  FROM demo_dev.gold.sales_dashboard_metrics\n",
+        "  WHERE metric_date >= DATE_SUB(CURRENT_DATE(), 365)\n",
+        "  GROUP BY DATE_TRUNC('MONTH', metric_date)\n",
+        ")\n",
+        "SELECT\n",
+        "  month,\n",
+        "  total_sales,\n",
+        "  total_orders,\n",
+        "  orders_web,\n",
+        "  orders_store,\n",
+        "  'WEB' as channel_web,\n",
+        "  'STORE' as channel_store\n",
+        "FROM monthly_data\n",
+        "ORDER BY month DESC\n",
+        "LIMIT 12"
+      ]
+    }
+  ],
+  "pages": [
+    {
+      "name": "exec_page",
+      "displayName": "Executive Summary",
+      "layout": [
+        {
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 6,
+            "height": 4
+          },
+          "widget": {
+            "name": "wLine12MonthSales",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "monthly_sales",
+                  "fields": [
+                    {
+                      "name": "month",
+                      "expression": "`month`"
+                    },
+                    {
+                      "name": "sum(total_sales)",
+                      "expression": "SUM(`total_sales`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "line",
+              "encodings": {
+                "x": {
+                  "fieldName": "month",
+                  "scale": {
+                    "type": "temporal"
+                  },
+                  "axis": {
+                    "title": "Month"
+                  }
+                },
+                "y": {
+                  "fieldName": "sum(total_sales)",
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "axis": {
+                    "title": "Total Sales"
+                  }
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "12-Month Sales Trend"
+              }
+            }
+          }
+        },
+        {
+          "position": {
+            "x": 0,
+            "y": 4,
+            "width": 6,
+            "height": 4
+          },
+          "widget": {
+            "name": "wLineOrdersByChannel12M",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "monthly_sales",
+                  "fields": [
+                    {
+                      "name": "month",
+                      "expression": "`month`"
+                    },
+                    {
+                      "name": "sum(orders_web)",
+                      "expression": "SUM(`orders_web`)"
+                    },
+                    {
+                      "name": "sum(orders_store)",
+                      "expression": "SUM(`orders_store`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "line",
+              "encodings": {
+                "x": {
+                  "fieldName": "month",
+                  "scale": {
+                    "type": "temporal"
+                  },
+                  "axis": {
+                    "title": "Month"
+                  }
+                },
+                "y": {
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "fields": [
+                    {
+                      "fieldName": "sum(orders_web)",
+                      "displayName": "Web Orders"
+                    },
+                    {
+                      "fieldName": "sum(orders_store)",
+                      "displayName": "Store Orders"
+                    }
+                  ],
+                  "axis": {
+                    "title": "Orders"
+                  }
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Orders by Channel - Last 12 Months"
+              }
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

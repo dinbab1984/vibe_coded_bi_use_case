@@ -1,0 +1,161 @@
+{
+  "plan_version": 700,
+  "tasks": [
+    {
+      "task_key": "demo_dev_bronze_raw_products",
+      "target_catalog": "demo_dev",
+      "target_schema": "bronze",
+      "target_table": "raw_products",
+      "sources": []
+    },
+    {
+      "task_key": "demo_dev_bronze_raw_customers",
+      "target_catalog": "demo_dev",
+      "target_schema": "bronze",
+      "target_table": "raw_customers",
+      "sources": []
+    },
+    {
+      "task_key": "demo_dev_bronze_raw_orders",
+      "target_catalog": "demo_dev",
+      "target_schema": "bronze",
+      "target_table": "raw_orders",
+      "sources": []
+    },
+    {
+      "task_key": "demo_dev_bronze_raw_order_items",
+      "target_catalog": "demo_dev",
+      "target_schema": "bronze",
+      "target_table": "raw_order_items",
+      "sources": []
+    },
+    {
+      "task_key": "demo_dev_bronze_raw_payments",
+      "target_catalog": "demo_dev",
+      "target_schema": "bronze",
+      "target_table": "raw_payments",
+      "sources": []
+    },
+    {
+      "task_key": "demo_dev_bronze_raw_events",
+      "target_catalog": "demo_dev",
+      "target_schema": "bronze",
+      "target_table": "raw_events",
+      "sources": []
+    },
+    {
+      "task_key": "demo_dev_bronze_raw_inventory",
+      "target_catalog": "demo_dev",
+      "target_schema": "bronze",
+      "target_table": "raw_inventory",
+      "sources": []
+    },
+    {
+      "task_key": "demo_dev_silver_dim_product",
+      "target_catalog": "demo_dev",
+      "target_schema": "silver",
+      "target_table": "dim_product",
+      "sources": [
+        {"catalog": "demo_dev", "schema": "bronze", "table": "raw_products"}
+      ]
+    },
+    {
+      "task_key": "demo_dev_silver_dim_customer",
+      "target_catalog": "demo_dev",
+      "target_schema": "silver",
+      "target_table": "dim_customer",
+      "sources": [
+        {"catalog": "demo_dev", "schema": "bronze", "table": "raw_customers"}
+      ]
+    },
+    {
+      "task_key": "demo_dev_silver_fact_orders",
+      "target_catalog": "demo_dev",
+      "target_schema": "silver",
+      "target_table": "fact_orders",
+      "sources": [
+        {"catalog": "demo_dev", "schema": "bronze", "table": "raw_orders"}
+      ]
+    },
+    {
+      "task_key": "demo_dev_silver_fact_order_items",
+      "target_catalog": "demo_dev",
+      "target_schema": "silver",
+      "target_table": "fact_order_items",
+      "sources": [
+        {"catalog": "demo_dev", "schema": "bronze", "table": "raw_order_items"},
+        {"catalog": "demo_dev", "schema": "silver", "table": "dim_product"}
+      ]
+    },
+    {
+      "task_key": "demo_dev_silver_fact_payments",
+      "target_catalog": "demo_dev",
+      "target_schema": "silver",
+      "target_table": "fact_payments",
+      "sources": [
+        {"catalog": "demo_dev", "schema": "bronze", "table": "raw_payments"}
+      ]
+    },
+    {
+      "task_key": "demo_dev_silver_fact_events",
+      "target_catalog": "demo_dev",
+      "target_schema": "silver",
+      "target_table": "fact_events",
+      "sources": [
+        {"catalog": "demo_dev", "schema": "bronze", "table": "raw_events"}
+      ]
+    },
+    {
+      "task_key": "demo_dev_silver_fact_inventory",
+      "target_catalog": "demo_dev",
+      "target_schema": "silver",
+      "target_table": "fact_inventory",
+      "sources": [
+        {"catalog": "demo_dev", "schema": "bronze", "table": "raw_inventory"}
+      ]
+    },
+    {
+      "task_key": "demo_dev_gold_sales_daily",
+      "target_catalog": "demo_dev",
+      "target_schema": "gold",
+      "target_table": "sales_daily",
+      "sources": [
+        {"catalog": "demo_dev", "schema": "silver", "table": "fact_order_items"},
+        {"catalog": "demo_dev", "schema": "silver", "table": "dim_product"},
+        {"catalog": "demo_dev", "schema": "silver", "table": "fact_orders"}
+      ]
+    },
+    {
+      "task_key": "demo_dev_gold_customer_lifetime_value_features",
+      "target_catalog": "demo_dev",
+      "target_schema": "gold",
+      "target_table": "customer_lifetime_value_features",
+      "sources": [
+        {"catalog": "demo_dev", "schema": "silver", "table": "fact_orders"},
+        {"catalog": "demo_dev", "schema": "silver", "table": "dim_customer"},
+        {"catalog": "demo_dev", "schema": "silver", "table": "fact_payments"}
+      ]
+    },
+    {
+      "task_key": "demo_dev_gold_product_performance",
+      "target_catalog": "demo_dev",
+      "target_schema": "gold",
+      "target_table": "product_performance",
+      "sources": [
+        {"catalog": "demo_dev", "schema": "silver", "table": "fact_order_items"},
+        {"catalog": "demo_dev", "schema": "silver", "table": "dim_product"},
+        {"catalog": "demo_dev", "schema": "silver", "table": "fact_orders"}
+      ]
+    },
+    {
+      "task_key": "demo_dev_gold_cohort_retention",
+      "target_catalog": "demo_dev",
+      "target_schema": "gold",
+      "target_table": "cohort_retention",
+      "sources": [
+        {"catalog": "demo_dev", "schema": "silver", "table": "fact_orders"},
+        {"catalog": "demo_dev", "schema": "silver", "table": "dim_customer"}
+      ]
+    }
+  ]
+}

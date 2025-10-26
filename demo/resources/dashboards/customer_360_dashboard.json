@@ -1,0 +1,203 @@
+{
+  "datasets": [
+    {
+      "name": "customer_clv",
+      "displayName": "Customer CLV",
+      "queryLines": [
+        "SELECT\n",
+        "  clv.customer_id,\n",
+        "  clv.total_spent,\n",
+        "  clv.order_count,\n",
+        "  clv.recency_days,\n",
+        "  clv.churn_risk_score,\n",
+        "  c.country_code\n",
+        "FROM demo_dev.gold.customer_lifetime_value_features clv\n",
+        "JOIN demo_dev.silver.dim_customer c\n",
+        "  ON clv.customer_id = c.customer_id\n",
+        "  AND c.is_current = true"
+      ]
+    }
+  ],
+  "pages": [
+    {
+      "name": "customer_page",
+      "displayName": "Customer 360",
+      "layout": [
+        {
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 2,
+            "height": 1
+          },
+          "widget": {
+            "name": "wFilterCountry",
+            "queries": [
+              {
+                "name": "filter_query",
+                "query": {
+                  "datasetName": "customer_clv",
+                  "fields": [
+                    {
+                      "name": "country_code",
+                      "expression": "`country_code`"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "widgetType": "filter-multi-select",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "country_code",
+                    "queryName": "filter_query"
+                  }
+                ]
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Country Filter"
+              }
+            }
+          }
+        },
+        {
+          "position": {
+            "x": 0,
+            "y": 1,
+            "width": 6,
+            "height": 5
+          },
+          "widget": {
+            "name": "wScatterChurnRisk",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "customer_clv",
+                  "fields": [
+                    {
+                      "name": "recency_days",
+                      "expression": "`recency_days`"
+                    },
+                    {
+                      "name": "total_spent",
+                      "expression": "`total_spent`"
+                    },
+                    {
+                      "name": "churn_risk_score",
+                      "expression": "`churn_risk_score`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "scatter",
+              "encodings": {
+                "x": {
+                  "fieldName": "recency_days",
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "axis": {
+                    "title": "Days Since Last Order"
+                  }
+                },
+                "y": {
+                  "fieldName": "total_spent",
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "axis": {
+                    "title": "Total Spent"
+                  }
+                },
+                "color": {
+                  "fieldName": "churn_risk_score",
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "legend": {
+                    "title": "Churn Risk"
+                  }
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Churn Risk Analysis"
+              }
+            }
+          }
+        },
+        {
+          "position": {
+            "x": 0,
+            "y": 6,
+            "width": 6,
+            "height": 4
+          },
+          "widget": {
+            "name": "wBarRecency",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "customer_clv",
+                  "fields": [
+                    {
+                      "name": "recency_days",
+                      "expression": "`recency_days`"
+                    },
+                    {
+                      "name": "count",
+                      "expression": "COUNT(*)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "recency_days",
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "axis": {
+                    "title": "Days Since Last Order"
+                  },
+                  "bin": {
+                    "maxBins": 20
+                  }
+                },
+                "y": {
+                  "fieldName": "count",
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "axis": {
+                    "title": "Number of Customers"
+                  }
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Customer Recency Distribution"
+              }
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

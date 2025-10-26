@@ -1,0 +1,19 @@
+resources:
+  jobs:
+    sample_data_load_job:
+      name: "demo_sample_data_load_${bundle.target}"
+      
+      tasks:
+        - task_key: generate_and_load_sample_data
+          notebook_task:
+            notebook_path: ../notebooks/generate_sample_data.py
+            base_parameters:
+              catalog: "${var.catalog}"
+              num_records: "1000"
+      
+      max_concurrent_runs: 1
+
+
+
+
+

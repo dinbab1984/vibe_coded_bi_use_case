@@ -1,0 +1,34 @@
+resources:
+  jobs:
+    schema_creation_job:
+      name: "demo_schema_creation_${bundle.target}"
+      
+      tasks:
+        - task_key: create_bronze_schema
+          notebook_task:
+            notebook_path: ../notebooks/create_bronze_schema.py
+            base_parameters:
+              catalog: "${var.catalog}"
+          
+        - task_key: create_silver_schema
+          depends_on:
+            - task_key: create_bronze_schema
+          notebook_task:
+            notebook_path: ../notebooks/create_silver_schema.py
+            base_parameters:
+              catalog: "${var.catalog}"
+          
+        - task_key: create_gold_schema
+          depends_on:
+            - task_key: create_silver_schema
+          notebook_task:
+            notebook_path: ../notebooks/create_gold_schema.py
+            base_parameters:
+              catalog: "${var.catalog}"
+      
+      max_concurrent_runs: 1
+
+
+
+
+

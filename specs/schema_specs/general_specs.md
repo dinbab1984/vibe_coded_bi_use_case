@@ -1,0 +1,3 @@
+- Make sure to columns dataypes in table create scipts match the specs.
+- Make sure that sample data load script maps the column datatype correctly and also databroicks job definition to run it.
+- Scripts should support changes to table schema (i.e. add columns)

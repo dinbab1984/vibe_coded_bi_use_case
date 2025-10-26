@@ -1,0 +1,260 @@
+{
+  "datasets": [
+    {
+      "name": "sales_metrics",
+      "displayName": "Sales Metrics",
+      "queryLines": [
+        "SELECT\n",
+        "  metric_date,\n",
+        "  total_sales,\n",
+        "  total_orders,\n",
+        "  avg_order_value,\n",
+        "  orders_web,\n",
+        "  orders_store\n",
+        "FROM demo_dev.gold.sales_dashboard_metrics\n",
+        "ORDER BY metric_date DESC"
+      ]
+    }
+  ],
+  "pages": [
+    {
+      "name": "sales_page",
+      "displayName": "Sales Overview",
+      "layout": [
+        {
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 2,
+            "height": 2
+          },
+          "widget": {
+            "name": "wCounterTotalSales",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "sales_metrics",
+                  "fields": [
+                    {
+                      "name": "sum(total_sales)",
+                      "expression": "SUM(`total_sales`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "sum(total_sales)",
+                  "displayName": "Total Sales",
+                  "format": {
+                    "type": "number-currency",
+                    "currencyCode": "USD",
+                    "abbreviation": "compact",
+                    "decimalPlaces": {
+                      "type": "max",
+                      "places": 2
+                    }
+                  },
+                  "style": {
+                    "color": "#00A972",
+                    "bold": true
+                  }
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Total Sales"
+              }
+            }
+          }
+        },
+        {
+          "position": {
+            "x": 2,
+            "y": 0,
+            "width": 2,
+            "height": 2
+          },
+          "widget": {
+            "name": "wCounterTotalOrders",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "sales_metrics",
+                  "fields": [
+                    {
+                      "name": "sum(total_orders)",
+                      "expression": "SUM(`total_orders`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "sum(total_orders)",
+                  "displayName": "Total Orders",
+                  "format": {
+                    "type": "number",
+                    "decimalPlaces": {
+                      "type": "max",
+                      "places": 0
+                    }
+                  },
+                  "style": {
+                    "color": "#077A9D",
+                    "bold": true
+                  }
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Total Orders"
+              }
+            }
+          }
+        },
+        {
+          "position": {
+            "x": 0,
+            "y": 2,
+            "width": 6,
+            "height": 4
+          },
+          "widget": {
+            "name": "wLineAOV",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "sales_metrics",
+                  "fields": [
+                    {
+                      "name": "metric_date",
+                      "expression": "`metric_date`"
+                    },
+                    {
+                      "name": "avg(avg_order_value)",
+                      "expression": "AVG(`avg_order_value`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "line",
+              "encodings": {
+                "x": {
+                  "fieldName": "metric_date",
+                  "scale": {
+                    "type": "temporal"
+                  },
+                  "axis": {
+                    "title": "Date"
+                  }
+                },
+                "y": {
+                  "fieldName": "avg(avg_order_value)",
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "axis": {
+                    "title": "Average Order Value"
+                  }
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "AOV Trend"
+              }
+            }
+          }
+        },
+        {
+          "position": {
+            "x": 0,
+            "y": 6,
+            "width": 6,
+            "height": 4
+          },
+          "widget": {
+            "name": "wLineOrdersByChannel",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "sales_metrics",
+                  "fields": [
+                    {
+                      "name": "metric_date",
+                      "expression": "`metric_date`"
+                    },
+                    {
+                      "name": "sum(orders_web)",
+                      "expression": "SUM(`orders_web`)"
+                    },
+                    {
+                      "name": "sum(orders_store)",
+                      "expression": "SUM(`orders_store`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "line",
+              "encodings": {
+                "x": {
+                  "fieldName": "metric_date",
+                  "scale": {
+                    "type": "temporal"
+                  },
+                  "axis": {
+                    "title": "Date"
+                  }
+                },
+                "y": {
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "fields": [
+                    {
+                      "fieldName": "sum(orders_web)",
+                      "displayName": "Web Orders"
+                    },
+                    {
+                      "fieldName": "sum(orders_store)",
+                      "displayName": "Store Orders"
+                    }
+                  ],
+                  "axis": {
+                    "title": "Orders"
+                  }
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Orders by Channel"
+              }
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

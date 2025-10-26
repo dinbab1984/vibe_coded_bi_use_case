@@ -1,0 +1,6 @@
+- Databricks Workspace (serverless enabled) deployed and have a serverless a sql wareshouse created.
+- Catalog created and attached to the workspace.
+- confgure the workspace and catalog details in the file workspace_specs.csv under the folder databricks_specs
+- Principal with access to workspace, serverless sql warehouse, also have access to run serverless jobs and catalog level grants to create schemas and tables.
+- Install databricks cli locally and configure a profile (default) with the principal mentioned above.
+- Install python version locally that matches your databricks runtime.

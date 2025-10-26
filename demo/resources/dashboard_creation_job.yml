@@ -1,0 +1,19 @@
+resources:
+  jobs:
+    dashboard_creation_job:
+      name: "demo_dashboard_creation_${bundle.target}"
+      
+      tasks:
+        - task_key: create_dashboards
+          notebook_task:
+            notebook_path: ../notebooks/create_dashboards.py
+            base_parameters:
+              catalog: "${var.catalog}"
+              warehouse_id: "${var.warehouse_id}"
+      
+      max_concurrent_runs: 1
+
+
+
+
+

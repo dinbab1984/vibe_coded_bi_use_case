@@ -1,0 +1,96 @@
+{
+  "datasets": [
+    {
+      "name": "cohort_data",
+      "displayName": "Cohort Retention",
+      "queryLines": [
+        "SELECT\n",
+        "  DATE_FORMAT(cohort_month, 'yyyy-MM') as cohort,\n",
+        "  CAST(month_offset AS STRING) as month_offset,\n",
+        "  active_customers,\n",
+        "  retention_rate * 100 as retention_rate\n",
+        "FROM demo_dev.gold.cohort_retention\n",
+        "ORDER BY cohort_month, month_offset"
+      ]
+    }
+  ],
+  "pages": [
+    {
+      "name": "cohort_page",
+      "displayName": "Cohort Retention",
+      "layout": [
+        {
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 6,
+            "height": 6
+          },
+          "widget": {
+            "name": "wHeatmapCohort",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "cohort_data",
+                  "fields": [
+                    {
+                      "name": "cohort",
+                      "expression": "`cohort`"
+                    },
+                    {
+                      "name": "month_offset",
+                      "expression": "`month_offset`"
+                    },
+                    {
+                      "name": "retention_rate",
+                      "expression": "`retention_rate`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "heatmap",
+              "encodings": {
+                "x": {
+                  "fieldName": "month_offset",
+                  "scale": {
+                    "type": "categorical"
+                  },
+                  "axis": {
+                    "title": "Months Since First Order"
+                  }
+                },
+                "y": {
+                  "fieldName": "cohort",
+                  "scale": {
+                    "type": "categorical"
+                  },
+                  "axis": {
+                    "title": "Cohort"
+                  }
+                },
+                "color": {
+                  "fieldName": "retention_rate",
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "legend": {
+                    "title": "Retention %"
+                  }
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Cohort Retention Matrix"
+              }
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+resources:
+  dashboards:
+    sales_overview_dashboard:
+      display_name: "Sales Overview - ${bundle.target}"
+      warehouse_id: "${var.warehouse_id}"
+      serialized_dashboard: "${file(path.module, \"dashboards/sales_overview_dashboard.json\")}"
+      parent_path: "/Workspace/Shared/Dashboards"
+      
+    product_performance_dashboard:
+      display_name: "Product Performance - ${bundle.target}"
+      warehouse_id: "${var.warehouse_id}"
+      serialized_dashboard: "${file(path.module, \"dashboards/product_performance_dashboard.json\")}"
+      parent_path: "/Workspace/Shared/Dashboards"
+      
+    customer_360_dashboard:
+      display_name: "Customer 360 & AI Features - ${bundle.target}"
+      warehouse_id: "${var.warehouse_id}"
+      serialized_dashboard: "${file(path.module, \"dashboards/customer_360_dashboard.json\")}"
+      parent_path: "/Workspace/Shared/Dashboards"
+      
+    cohort_retention_dashboard:
+      display_name: "Cohort Retention - ${bundle.target}"
+      warehouse_id: "${var.warehouse_id}"
+      serialized_dashboard: "${file(path.module, \"dashboards/cohort_retention_dashboard.json\")}"
+      parent_path: "/Workspace/Shared/Dashboards"

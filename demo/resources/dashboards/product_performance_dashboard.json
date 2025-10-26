@@ -1,0 +1,200 @@
+{
+  "datasets": [
+    {
+      "name": "product_sales",
+      "displayName": "Product Sales",
+      "queryLines": [
+        "SELECT\n",
+        "  ps.month,\n",
+        "  ps.product_id,\n",
+        "  p.name as product_name,\n",
+        "  p.category,\n",
+        "  ps.units_sold,\n",
+        "  ps.revenue,\n",
+        "  ps.returns_rate\n",
+        "FROM demo_dev.gold.product_sales_by_month ps\n",
+        "JOIN demo_dev.silver.dim_product p ON ps.product_id = p.product_id\n",
+        "ORDER BY ps.revenue DESC"
+      ]
+    }
+  ],
+  "pages": [
+    {
+      "name": "product_page",
+      "displayName": "Product Performance",
+      "layout": [
+        {
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 2,
+            "height": 1
+          },
+          "widget": {
+            "name": "wFilterCategory",
+            "queries": [
+              {
+                "name": "filter_query",
+                "query": {
+                  "datasetName": "product_sales",
+                  "fields": [
+                    {
+                      "name": "category",
+                      "expression": "`category`"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "widgetType": "filter-single-select",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "category",
+                    "queryName": "filter_query"
+                  }
+                ]
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Category Filter"
+              }
+            }
+          }
+        },
+        {
+          "position": {
+            "x": 0,
+            "y": 1,
+            "width": 6,
+            "height": 5
+          },
+          "widget": {
+            "name": "wBarTopProducts",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "product_sales",
+                  "fields": [
+                    {
+                      "name": "product_name",
+                      "expression": "`product_name`"
+                    },
+                    {
+                      "name": "sum(revenue)",
+                      "expression": "SUM(`revenue`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "sum(revenue)",
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "axis": {
+                    "title": "Revenue"
+                  }
+                },
+                "y": {
+                  "fieldName": "product_name",
+                  "scale": {
+                    "type": "categorical"
+                  },
+                  "axis": {
+                    "title": "Product"
+                  }
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Top Products by Revenue"
+              }
+            }
+          }
+        },
+        {
+          "position": {
+            "x": 0,
+            "y": 6,
+            "width": 6,
+            "height": 5
+          },
+          "widget": {
+            "name": "wHeatmapReturns",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "product_sales",
+                  "fields": [
+                    {
+                      "name": "month",
+                      "expression": "`month`"
+                    },
+                    {
+                      "name": "product_name",
+                      "expression": "`product_name`"
+                    },
+                    {
+                      "name": "avg(returns_rate)",
+                      "expression": "AVG(`returns_rate`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "heatmap",
+              "encodings": {
+                "x": {
+                  "fieldName": "month",
+                  "scale": {
+                    "type": "temporal"
+                  },
+                  "axis": {
+                    "title": "Month"
+                  }
+                },
+                "y": {
+                  "fieldName": "product_name",
+                  "scale": {
+                    "type": "categorical"
+                  },
+                  "axis": {
+                    "title": "Product"
+                  }
+                },
+                "color": {
+                  "fieldName": "avg(returns_rate)",
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "legend": {
+                    "title": "Returns Rate %"
+                  }
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Returns Rate by Product and Month"
+              }
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
