@@ -16,7 +16,7 @@ gold.customer_lifetime_value_features,total_spent,DECIMAL(18,2),true,"Lifetime r
 gold.customer_lifetime_value_features,order_count,BIGINT,true,"Total orders","Aggregated",
 gold.customer_lifetime_value_features,avg_days_between_orders,DECIMAL(8,2),true,"Avg inter-order days","Derived"
 gold.customer_lifetime_value_features,recency_days,INT,true,"Days since last order","Derived",
-gold.customer_lifetime_value_features,churn_risk_score,DECIMAL(5,2),true,"Model-ready score","Derived feature"
+gold.customer_lifetime_value_features,churn_risk_score,DECIMAL(5,2),true,"Model-ready score","Derived feature",
 gold.cohort_retention,cohort_month,DATE,false,"Month of first order","Derived"
 gold.cohort_retention,month_offset,INT,false,"Months since cohort start","Derived",
 gold.cohort_retention,active_customers,BIGINT,true,"Active customers","Aggregated",
