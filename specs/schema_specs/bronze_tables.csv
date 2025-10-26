@@ -43,7 +43,6 @@ bronze.web_events_raw,event_type,STRING,true,"Event type (view, add_to_cart)","N
 bronze.web_events_raw,event_timestamp,STRING,true,"Event timestamp","Parse in silver"
 bronze.web_events_raw,source,STRING,true,"Source (web, app)","Normalize in silver"
 bronze.web_events_raw,_ingest_time,TIMESTAMP,false,"Ingestion time","Add on load"
-
 bronze.payments_raw,payment_id,STRING,false,"Payment id","Raw as-is"
 bronze.payments_raw,order_id,STRING,true,"Order id","Raw as-is"
 bronze.payments_raw,amount,STRING,true,"Payment amount","Type-cast in silver"
@@ -51,7 +50,6 @@ bronze.payments_raw,currency_code,STRING,true,"Currency code","Uppercase in silv
 bronze.payments_raw,status,STRING,true,"Payment status","Normalize in silver"
 bronze.payments_raw,paid_at,STRING,true,"Payment timestamp","Parse in silver"
 bronze.payments_raw,_ingest_time,TIMESTAMP,false,"Ingestion time","Add on load"
-
 bronze.inventory_raw,product_id,STRING,false,"Product id","Raw as-is"
 bronze.inventory_raw,location_id,STRING,false,"Warehouse/store id","Raw as-is"
 bronze.inventory_raw,quantity_on_hand,STRING,true,"Quantity on hand","Type-cast in silver"
