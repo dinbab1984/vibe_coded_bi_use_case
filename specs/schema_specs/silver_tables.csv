@@ -1,4 +1,4 @@
-table_name,column_name,data_type,nullable,description,notes
+table_name,column_name,data_type,nullable,description,notes,additional_info
 silver.dim_customer,customer_id,STRING,false,"Business key","From source"
 silver.dim_customer,first_name,STRING,true,"First name","Standardized UTF-8"
 silver.dim_customer,last_name,STRING,true,"Last name","Standardized UTF-8"

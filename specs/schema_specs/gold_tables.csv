@@ -1,4 +1,4 @@
-table_name,column_name,data_type,nullable,description,notes
+table_name,column_name,data_type,nullable,description,notes,additional_info
 gold.sales_dashboard_metrics,metric_date,DATE,false,"Date grain","From dim_time"
 gold.sales_dashboard_metrics,total_orders,BIGINT,false,"Orders count","Aggregated"
 gold.sales_dashboard_metrics,total_sales,DECIMAL(18,2),false,"Total revenue","Aggregated"
