@@ -9,7 +9,6 @@ bronze.orders_raw,channel,STRING,true,"Order channel (web, store, app)","Normali
 bronze.orders_raw,_ingest_time,TIMESTAMP,false,"Ingestion time (system)","Add on load"
 bronze.orders_raw,_file_name,STRING,true,"Source file/object name","Add on load"
 bronze.orders_raw,_source,STRING,true,"Source system/application","Add on load"
-
 bronze.order_items_raw,order_item_id,STRING,false,"Source order item id","Raw as-is"
 bronze.order_items_raw,order_id,STRING,false,"Parent order id","Raw as-is"
 bronze.order_items_raw,product_id,STRING,true,"Product id","Raw as-is"
@@ -20,7 +19,6 @@ bronze.order_items_raw,discount_amount,STRING,true,"Discount amount","Type-cast 
 bronze.order_items_raw,_ingest_time,TIMESTAMP,false,"Ingestion time","Add on load"
 bronze.order_items_raw,_file_name,STRING,true,"Source file name","Add on load"
 bronze.order_items_raw,_source,STRING,true,"Source system","Add on load"
-
 bronze.customers_raw,customer_id,STRING,false,"Source customer id","Raw as-is"
 bronze.customers_raw,first_name,STRING,true,"First name","Raw as-is"
 bronze.customers_raw,last_name,STRING,true,"Last name","Raw as-is"
@@ -31,7 +29,6 @@ bronze.customers_raw,created_at,STRING,true,"Customer creation time","Parse in s
 bronze.customers_raw,updated_at,STRING,true,"Last update time","Parse in silver"
 bronze.customers_raw,_ingest_time,TIMESTAMP,false,"Ingestion time","Add on load"
 bronze.customers_raw,_source,STRING,true,"Source application","Add on load"
-
 bronze.products_raw,product_id,STRING,false,"Source product id","Raw as-is"
 bronze.products_raw,name,STRING,true,"Product name","Raw as-is"
 bronze.products_raw,category,STRING,true,"Category","Normalize in silver"
@@ -39,7 +36,6 @@ bronze.products_raw,list_price,STRING,true,"List price","Type-cast in silver"
 bronze.products_raw,currency_code,STRING,true,"Currency code","Uppercase in silver"
 bronze.products_raw,is_active,STRING,true,"Active flag (as provided)","Cast to BOOLEAN"
 bronze.products_raw,_ingest_time,TIMESTAMP,false,"Ingestion time","Add on load"
-
 bronze.web_events_raw,event_id,STRING,false,"Event id","Raw as-is"
 bronze.web_events_raw,customer_id,STRING,true,"Customer id","May be null (anonymous)"
 bronze.web_events_raw,session_id,STRING,true,"Session id","Raw as-is"
